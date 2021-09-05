@@ -1,0 +1,25 @@
+openapi: 3.0.0
+info:
+  title: statistics service
+  version: 1.0.0
+
+paths:
+  /summary/daily/:
+    get:
+      tags:
+        - report
+      summary: Returns a daily summary report
+      operationId: statistics.api.reports.daily
+      responses:
+        "200":
+          description: Success
+
+  /liveness/:
+    get:
+      tags:
+        - probe
+      summary: Indicates whether the application is running
+      operationId: statistics.api.probe.liveness
+      responses:
+        "200":
+          description: Success

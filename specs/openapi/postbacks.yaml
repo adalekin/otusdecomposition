@@ -1,0 +1,74 @@
+openapi: 3.0.0
+info:
+  title: postbacks service
+  version: 1.0.0
+
+paths:
+  /postbacks/:
+    post:
+      tags:
+        - postback
+      summary: Create a postback
+      operationId: postbacks.api.postbacks.create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              x-body-name: postback
+              $ref: "#/components/schemas/Postback"
+        required: true
+      responses:
+        "201":
+          description: A postback successfully created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostbackWithID"
+
+  /liveness/:
+    get:
+      tags:
+        - probe
+      summary: Indicates whether the application is running
+      operationId: postbacks.api.probe.liveness
+      responses:
+        "200":
+          description: Success
+
+components:
+  schemas:
+    Postback:
+      type: object
+      required:
+        - user_id
+        - url
+        - method
+        - ec
+        - ea
+      properties:
+        user_id:
+          type: integer
+          description: A user identifier
+        url:
+          type: string
+          description: A postback URL
+        method:
+          type: string
+          enum: ["GET", "POST"]
+          description: A postback HTTP method
+        ec:
+          type: string
+          description: Specifies the event category
+        ea:
+          type: string
+          description: Specifies the event action
+    PostbackWithID:
+      allOf:
+        - $ref: "#/components/schemas/Postback"
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              type: integer
+              description: A postback identifier

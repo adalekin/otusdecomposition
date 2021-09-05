@@ -1,0 +1,29 @@
+flowchart TD
+	customer[Customer]
+	trafficPartner[Traffic Partner]
+	affiliateTrackingSoftware[Affiliate Tracking Software]
+	paymentGateway[Payment Gateway]
+	brand[Brand]
+
+	subgraph Affo
+		auth
+		users
+		postbacks
+		statistics
+
+		auth--->|Токен аутентификации|users
+		users--->|Получение ID партнера|deeplinks
+		users--->|Создание счета|billing
+		deeplinks--->|Событие на переход по ссылке|events
+		events--->|Уведомление о событии|postbacks
+		events--->|Агрегаты|statistics
+		events--->|Событие о вознаграждении|billing
+	end
+	trafficPartner--->Affo
+	postbacks--->affiliateTrackingSoftware
+
+	customer--->brand
+	customer--->paymentGateway
+	paymentGateway--->brand
+
+	brand--->|События о вознаграждении|Affo

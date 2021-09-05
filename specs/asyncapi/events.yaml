@@ -1,0 +1,67 @@
+asyncapi: 2.0.0
+info:
+  title: events service
+  version: '1.0.0'
+defaultContentType: application/json
+
+channels:
+  events/received:
+    subscribe:
+      message:
+        $ref: '#/components/messages/EventReceived'
+
+
+components:
+  messages:
+    EventReceived:
+      payload:
+        type: object
+        required:
+          - t
+        properties:
+          t:
+            description: The type of hit.
+            type: string
+            enum:
+              - pageview
+              - event
+          tid:
+            description: The tracking ID / web property ID. The format is AFFO-XXXX. All collected data is associated by this ID.
+            type: string
+          cid:
+            description: This anonymously identifies a particular user, device, or browser instance. For the web, this is generally stored as a first-party cookie with a two-year expiration. For mobile apps, this is randomly generated for each particular instance of an application install. The value of this field should be a random UUID (version 4) as described in http://www.ietf.org/rfc/rfc4122.txt.
+            type: string
+            format: uuid
+          cn:
+            description: Specifies the campaign name.
+            type: string
+          cf1:
+            description: The custom field 1.
+            type: string
+          cf2:
+            description: The custom field 2.
+            type: string
+          cf3:
+            description: The custom field 3.
+            type: string
+          cf4:
+            description: The custom field 4.
+            type: string
+          cf5:
+            description: The custom field 5.
+            type: string
+          dl:
+            description: Use this parameter to send the full URL (document location) of the page on which content resides.
+            type: string
+          dr:
+            description: Specifies which referral source brought traffic to a website. This value is also used to compute the traffic source. The format of this value is a URL.
+            type: string
+          uip:
+            description: The IP address of the user. This should be a valid IP address in IPv4 or IPv6 format. It will always be anonymized just as though &aip (anonymize IP) had been used.
+            type: string
+          utt:
+            description: Specifies the user timing value. The value is in milliseconds.
+            type: string
+          ua:
+            description: The User Agent of the browser. Note that Google has libraries to identify real user agents. Hand crafting your own agent could break at any time.
+            type: string
